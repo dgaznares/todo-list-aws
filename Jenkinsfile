@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment {
-        ENVIRONMENT= "${BRANCH_NAME}";
+        ENVIRONMENT= "${env.BRANCH_NAME}";
         STAGE_DEVELOP = "staging"
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
@@ -9,6 +9,17 @@ pipeline{
         //ENVIRONMENT= "master";
     }
     stages{
+        stage('Diagnóstico') {
+            steps {
+                script {
+                    echo "=== Diagnóstico Inicial ==="
+                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+                    echo "WORKSPACE: ${env.WORKSPACE}"
+                    echo "BUILD_NUMBER: ${env.BUILD_NUMBER}"
+                }
+            }
+        } 
+    
         stage('Get Code'){
             steps{
                 cleanWs()
