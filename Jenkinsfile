@@ -9,26 +9,6 @@ pipeline{
         //ENVIRONMENT= "master";
     }
     stages{
-        stage('Detectar rama') {
-            steps {
-                script{
-                    def branch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
-                    echo "La rama detectada es: ${branch}"
-                    env.BRANCH_NAME = branch // Opcional: si quieres reutilizar esta variable después
-                }
-            }
-        }
-        stage('Diagnóstico') {
-            steps {
-                script {
-                    echo "=== Diagnóstico Inicial ==="
-                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                    echo "WORKSPACE: ${env.WORKSPACE}"
-                    echo "BUILD_NUMBER: ${env.BUILD_NUMBER}"
-                }
-            }
-        } 
-    
         stage('Get Code'){
             steps{
                 cleanWs()
