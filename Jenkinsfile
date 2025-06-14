@@ -13,6 +13,7 @@ pipeline{
             steps{
                 cleanWs()
                 echo 'GetCode stage'
+                sh 'env'
                 withCredentials([string(credentialsId: 'GitHub-TOKEN', variable: 'TOKEN')]) {
                     // Ahora puedes usar la variable TOKEN de forma segura
                     sh 'echo "Usando el token: $TOKEN"'
