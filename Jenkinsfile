@@ -1,10 +1,9 @@
 pipeline{
     agent any
     environment {
-    
         DEVELOP_ENVIRONMENT="develop"
         MASTER_ENVIRONMENT="master"
-        gitBranch = "${env.GIT_BRANCH}"
+        gitBranch = "${GIT_BRANCH}"
         STAGE_DEVELOP = "staging"
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
@@ -18,16 +17,15 @@ pipeline{
                 echo 'GetCode stage'
                 sh 'env'
                 script{
-                
+                    def gitBranchLowecase = gitBranch.toLowerCase()
                     if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
                         ENVIRONMENT = DEVELOP_ENVIRONMENT
                     } else if (gitBranchLowecase.contains(MASTER_ENVIRONMENT)) {
                         ENVIRONMENT = MASTER_ENVIRONMENT
                     } else {
-                     error "No se pudo determinar el entorno desde la rama: ${gitBranchLowecase}"
+                        error "No se pudo determinar el entorno desde la rama: ${gitBranchLowecase}"
                     }
                 }
-
                 withCredentials([string(credentialsId: 'GitHub-TOKEN', variable: 'TOKEN')]) {
                     // Ahora puedes usar la variable TOKEN de forma segura
                     sh 'echo "Usando el token: $TOKEN"'
