@@ -1,12 +1,15 @@
 pipeline{
     agent any
     environment {
-        ENVIRONMENT= "${env.BRANCH_NAME}";
+    
+        DEVELOP_ENVIRONMENT="develop"
+        MASTER_ENVIRONMENT="master"
+        gitBranch = "${env.GIT_BRANCH}";
         STAGE_DEVELOP = "staging"
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
         STACK_NAME_MASTER = "production-todo-list-aws"
-        //ENVIRONMENT= "master";
+        ENVIRONMENT= ""
     }
     stages{
         stage('Get Code'){
@@ -14,6 +17,16 @@ pipeline{
                 cleanWs()
                 echo 'GetCode stage'
                 sh 'env'
+                script{
+                
+                    def gitBranchLowecase = gitBranch.toLowerCase();
+                    if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)
+                        ENVIRONMENT=DEVELOP_ENVIRONMENT
+                    else 
+                    if(gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)
+                        ENVIRONMENT=MASTER_ENVIRONMENT
+                }
+
                 withCredentials([string(credentialsId: 'GitHub-TOKEN', variable: 'TOKEN')]) {
                     // Ahora puedes usar la variable TOKEN de forma segura
                     sh 'echo "Usando el token: $TOKEN"'
