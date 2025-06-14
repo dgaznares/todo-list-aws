@@ -4,7 +4,7 @@ pipeline{
     
         DEVELOP_ENVIRONMENT="develop"
         MASTER_ENVIRONMENT="master"
-        gitBranch = "${env.GIT_BRANCH}";
+        gitBranch = "${env.GIT_BRANCH}"
         STAGE_DEVELOP = "staging"
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
@@ -19,12 +19,13 @@ pipeline{
                 sh 'env'
                 script{
                 
-                    def gitBranchLowecase = gitBranch.toLowerCase();
-                    if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)
-                        ENVIRONMENT=DEVELOP_ENVIRONMENT
-                    else 
-                    if(gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)
-                        ENVIRONMENT=MASTER_ENVIRONMENT
+                    if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
+                        ENVIRONMENT = DEVELOP_ENVIRONMENT
+                    } else if (gitBranchLowecase.contains(MASTER_ENVIRONMENT)) {
+                        ENVIRONMENT = MASTER_ENVIRONMENT
+                    } else {
+                     error "No se pudo determinar el entorno desde la rama: ${gitBranchLowecase}"
+                    }
                 }
 
                 withCredentials([string(credentialsId: 'GitHub-TOKEN', variable: 'TOKEN')]) {
