@@ -154,7 +154,7 @@ pipeline{
                 //branch 'develop' // Esta stage solo se ejecuta si la rama actual es 'develop'
             }
             steps{
-                 cleanWs()
+            
                  sh 'whoami'
                  sh 'hostname' 
                  echo "Recover workspace: unstash..."
@@ -168,6 +168,7 @@ pipeline{
                         git push https://${TOKEN}@github.com/dgaznares/todo-list-aws.git
                     '''
                  }
+                 cleanWs()
             }
         }
     }
