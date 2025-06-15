@@ -3,7 +3,6 @@ pipeline{
     environment {
         DEVELOP_ENVIRONMENT="develop"
         MASTER_ENVIRONMENT="master"
-        gitBranch = "${GIT_BRANCH}"
         STAGE_DEVELOP = "staging"
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
@@ -14,16 +13,17 @@ pipeline{
         stage('Get Code'){
             agent { label 'mac' }
             steps{
-                echo "GetCode stage1.  ${gitBranch}"
-                echo "GetCode stage2.  ${env.gitBranch}"   
+  
                 echo "GetCode stage3.  ${GIT_BRANCH}"
                 echo "GetCode stage4.  ${env.GIT_BRANCH}"
                 
                 
                 sh 'env'
                 script{
+                    def gitBranch = ${env.GIT_BRANCH}
+                    echo "${gitBranch}
                     def gitBranchLowecase = gitBranch.toLowerCase()
-                    echo "gitBranchLowecase-> $gitBranchLowecase"
+                    echo "gitBranchLowecase->" gitBranchLowecase
                     if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
                         ENVIRONMENT = DEVELOP_ENVIRONMENT
                     } else if (gitBranchLowecase.contains(MASTER_ENVIRONMENT)) {
