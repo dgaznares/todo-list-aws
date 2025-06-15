@@ -20,8 +20,8 @@ pipeline{
                 
                 sh 'env'
                 script{
-                    def gitBranch = ${env.GIT_BRANCH}
-                    echo "${gitBranch}
+                    def gitBranch = ${env.GIT_BRANCH}"
+                    echo "${gitBranch}"
                     def gitBranchLowecase = gitBranch.toLowerCase()
                     echo "gitBranchLowecase->" gitBranchLowecase
                     if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
