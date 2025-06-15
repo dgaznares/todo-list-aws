@@ -8,16 +8,13 @@ pipeline{
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
         STACK_NAME_MASTER = "production-todo-list-aws"
-        ENVIRONMENT= ""
+        ENVIRONMENT= "No Branch"
     }
     stages{
         stage('Get Code'){
             agent { label 'mac' }
             steps{
-  
-                echo "GetCode stage3.  ${GIT_BRANCH}"
-                echo "GetCode stage4.  ${env.GIT_BRANCH}"
-                
+
                 sh 'env'
                 script{
                     def gitBranch = env.GIT_BRANCH
