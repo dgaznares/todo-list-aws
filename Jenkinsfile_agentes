@@ -1,6 +1,7 @@
 pipeline{
     agent none
     environment {
+        gitBranchNEW= env.GIT_BRANCH
         DEVELOP_ENVIRONMENT="develop"
         MASTER_ENVIRONMENT="master"
         STAGE_DEVELOP = "staging"
@@ -16,11 +17,12 @@ pipeline{
   
                 echo "GetCode stage3.  ${GIT_BRANCH}"
                 echo "GetCode stage4.  ${env.GIT_BRANCH}"
+                echo "GetCode stage5.  ${gitBranchNEW}"
                 
                 
                 sh 'env'
                 script{
-                    def gitBranch = ${env.GIT_BRANCH}"
+                    def gitBranch = env.GIT_BRANCH
                     echo "${gitBranch}"
                     def gitBranchLowecase = gitBranch.toLowerCase()
                     echo "gitBranchLowecase->" gitBranchLowecase
