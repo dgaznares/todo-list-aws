@@ -52,7 +52,7 @@ pipeline{
         }
         stage('Static Test'){
             when {
-                expression {return ENVIRONMENT == 'develop'}
+                expression {return ENVIRONMENT == DEVELOP_ENVIRONMENT}
                 //branch 'develop' // Esta stage solo se ejecuta si la rama actual es 'develop'
             }
             steps{
@@ -80,7 +80,7 @@ pipeline{
                  '''
                  script{
                      def stageName = STAGE_DEVELOP
-                     if (ENVIRONMENT =='master'){
+                     if (ENVIRONMENT == MASTER_ENVIRONMENT){
                          stageName = STAGE_MASTER
                      }
                     sh " sam deploy --config-env ${stageName} --no-confirm-changeset --no-fail-on-empty-changeset"
@@ -92,7 +92,7 @@ pipeline{
                  echo "Rest Test stage ${ENVIRONMENT}"
                  script {
                     def stackName = STACK_NAME_DEVELOP 
-                    if (ENVIRONMENT == "master") {
+                    if (ENVIRONMENT == MASTER_ENVIRONMENT) {
                         stackName = STACK_NAME_MASTER
                     }
                     def baseUrl = sh(
@@ -118,7 +118,7 @@ pipeline{
         }
         stage('Promote'){
             when {
-                expression {return ENVIRONMENT == 'develop'}
+                expression {return ENVIRONMENT == DEVELOP_ENVIRONMENT}
                 //branch 'develop' // Esta stage solo se ejecuta si la rama actual es 'develop'
             }
             steps{
