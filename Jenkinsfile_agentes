@@ -14,16 +14,22 @@ pipeline{
         stage('Get Code'){
             agent { label 'mac' }
             steps{
-                echo "GetCode stage.  ${gitBranch}"
+                echo "GetCode stage1.  ${gitBranch}"
+                echo "GetCode stage2.  ${env.gitBranch}"   
+                echo "GetCode stage3.  ${GIT_BRANCH}"
+                echo "GetCode stage4.  ${env.GIT_BRANCH}"
+                
+                
                 sh 'env'
                 script{
                     def gitBranchLowecase = gitBranch.toLowerCase()
+                    echo "gitBranchLowecase-> $gitBranchLowecase"
                     if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
                         ENVIRONMENT = DEVELOP_ENVIRONMENT
                     } else if (gitBranchLowecase.contains(MASTER_ENVIRONMENT)) {
                         ENVIRONMENT = MASTER_ENVIRONMENT
                     } else {
-                        error "No se pudo determinar el entorno desde la rama: ${gitBranchLowecase}"
+                        echo "Error. No se pudo determinar el entorno desde la rama: ${gitBranchLowecase}"
                     }
                 }
                 withCredentials([string(credentialsId: 'GitHub-TOKEN', variable: 'TOKEN')]) {
