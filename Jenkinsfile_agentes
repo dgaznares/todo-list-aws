@@ -23,7 +23,7 @@ pipeline{
                     def gitBranch = env.GIT_BRANCH
                     echo "${gitBranch}"
                     def gitBranchLowecase = gitBranch.toLowerCase()
-                    echo "gitBranchLowecase->" gitBranchLowecase
+                    echo "gitBranchLowecase-> ${gitBranchLowecase}"
                     if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
                         ENVIRONMENT = DEVELOP_ENVIRONMENT
                     } else if (gitBranchLowecase.contains(MASTER_ENVIRONMENT)) {
