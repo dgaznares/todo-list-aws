@@ -14,7 +14,7 @@ pipeline{
         stage('Get Code'){
             agent { label 'mac' }
             steps{
-                echo "GetCode stage. "
+                echo "GetCode stage.  ${gitBranch}"
                 sh 'env'
                 script{
                     def gitBranchLowecase = gitBranch.toLowerCase()
