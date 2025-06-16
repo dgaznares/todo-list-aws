@@ -1,7 +1,6 @@
 pipeline{
     agent none
     environment {
-        
         DEVELOP_ENVIRONMENT="develop"
         MASTER_ENVIRONMENT="master"
         STAGE_DEVELOP = "staging"
@@ -34,7 +33,7 @@ pipeline{
                     git branch: "${ENVIRONMENT}", url: 'https://${TOKEN}@github.com/dgaznares/todo-list-aws.git'
                     sh 'ls -la'
                     echo WORKSPACE
-                    stash name: 'workspace', includes: '**/*', allowEmpty: true, useDefaultExcludes: false
+                    stash name: 'workspace', includes: '**/*'
                     cleanWs()
                 }
             }
@@ -154,15 +153,13 @@ pipeline{
                 //branch 'develop' // Esta stage solo se ejecuta si la rama actual es 'develop'
             }
             steps{
-            
                  sh 'whoami'
                  sh 'hostname' 
-                 echo "Recover workspace: unstash..."
-                 unstash 'workspace'
-                 sh 'ls -la'
                  echo 'Promote stage to master branch'
                  withCredentials([string(credentialsId: 'GitHub-TOKEN', variable: 'TOKEN')]) {
+                    git branch: "${DEVELOP_ENVIRONMENT}", url: 'https://${TOKEN}@github.com/dgaznares/todo-list-aws.git'
                     sh '''
+                        ls -la
                         git checkout master
                         git merge develop
                         git push https://${TOKEN}@github.com/dgaznares/todo-list-aws.git
