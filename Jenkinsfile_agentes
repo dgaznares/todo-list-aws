@@ -73,7 +73,7 @@ pipeline{
                     pyLint(name: "Bandit", pattern: 'bandit.out')
                 ]
                 echo WORKSPACE
-                //stash name: 'workspace', includes: '**/*, .git/**/*', allowEmpty: true
+                stash name: 'workspace', includes: '**/*'
                 cleanWs()
             }
         }
