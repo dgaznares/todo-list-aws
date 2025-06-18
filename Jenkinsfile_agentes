@@ -11,7 +11,7 @@ pipeline{
     }
     stages{
         stage('Get Code'){
-            agent { label 'mac' }
+            agent { label 'linux' }
             steps{
 
                 sh 'env'
