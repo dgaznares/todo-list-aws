@@ -36,7 +36,7 @@ pipeline{
                     git branch: "${ENVIRONMENT}", url: 'https://${TOKEN}@github.com/dgaznares/todo-list-aws.git'
                     dir('config') {
                         echo "Getting configuration from ${STAGE_CONFIG}..."
-                        git branch: "${STAGE_CONFIG}", url: 'https://${TOKEN}github.com/dgaznares/todo-list-aws-config.git'
+                        git branch: "${STAGE_CONFIG}", url: 'https://${TOKEN}@github.com/dgaznares/todo-list-aws-config.git'
                     }
                     sh '''
                         pwd
