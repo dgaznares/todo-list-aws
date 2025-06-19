@@ -8,7 +8,8 @@ pipeline{
         STAGE_MASTER =  "production"
         STACK_NAME_DEVELOP = "staging-todo-list-aws"
         STACK_NAME_MASTER = "production-todo-list-aws"
-        ENVIRONMENT= ""
+        ENVIRONMENT= "develop"
+        STAGE_CONFIG="staging"
     }
     stages{
         stage('Get Code'){
@@ -20,8 +21,10 @@ pipeline{
                     def gitBranchLowecase = gitBranch.toLowerCase()
                     if (gitBranchLowecase.contains(DEVELOP_ENVIRONMENT)) {
                         ENVIRONMENT = DEVELOP_ENVIRONMENT
+                        STAGE_CONFIG = STAGE_DEVELOP
                     } else if (gitBranchLowecase.contains(MASTER_ENVIRONMENT)) {
                         ENVIRONMENT = MASTER_ENVIRONMENT
+                        STAGE_CONFIG = STAGE_MASTER
                     } else {
                         error "No se pudo determinar el entorno desde la rama: ${gitBranchLowecase}"
                     }
@@ -31,7 +34,17 @@ pipeline{
                     sh 'echo "Usando el token: $TOKEN"'
                     echo "Getting code from ${ENVIRONMENT}..."
                     git branch: "${ENVIRONMENT}", url: 'https://${TOKEN}@github.com/dgaznares/todo-list-aws.git'
-                    sh 'ls -la'
+                    dir('config') {
+                        echo "Getting configuration from ${STAGE_CONFIG}..."
+                        git branch: "${STAGE_CONFIG}", url: 'https://${TOKEN}github.com/dgaznares/todo-list-aws-config.git'
+                    }
+                    sh '''
+                        pwd
+                        echo "Copying samconfig.toml to root workspace..."
+                        cp ./config/samconfig.toml .
+                        echo "samconfig.toml copied"
+                        ls -la
+                    '''
                 }
             }
         }
